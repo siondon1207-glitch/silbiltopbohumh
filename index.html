@@ -1,23 +1,861 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Home</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <!--
-      Need a visual blank slate?
-      Remove all code in `styles.css`!
-    -->
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
-    <nav>
-      <a href="/" aria-current="page">Home</a>
-      <a href="/page2.html">Other page</a>
-    </nav>
-    <main>
-      <h1>Home page</h1>
-    </main>
-  </body>
-</html>
+
+  <style>
+    /* 폰트 및 기본 디자인 시스템 설정 */
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+    
+    :root {
+      --primary-color: #0f766e;
+      --primary-light: #f0fdfa;
+      --secondary-color: #0d9488;
+      --accent-color: #be123c;
+      --accent-light: #fff1f2;
+      --text-main: #1f2937;
+      --text-muted: #4b5563;
+      --bg-main: #f4f8f6;
+      --bg-white: #ffffff;
+      --border-color: #e5e7eb;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrapper {
+      max-width: 900px;
+      margin: 40px auto;
+      background: var(--bg-white);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* 타이틀 및 헤더 구조 */
+    header {
+      border-bottom: 2px solid var(--primary-light);
+      padding-bottom: 30px;
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      font-size: 2.4em;
+      color: var(--primary-color);
+      font-weight: 900;
+      line-height: 1.3;
+      margin-bottom: 15px;
+    }
+
+    .meta-info {
+      font-size: 0.95em;
+      color: var(--text-muted);
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .meta-info span {
+      background: var(--primary-light);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: 500;
+      color: var(--secondary-color);
+    }
+
+    /* 본문 공통 스타일 */
+    h2 {
+      font-size: 1.7em;
+      color: var(--primary-color);
+      margin-top: 2em;
+      margin-bottom: 0.8em;
+      border-left: 5px solid var(--secondary-color);
+      padding-left: 15px;
+      font-weight: 700;
+    }
+
+    h3 {
+      font-size: 1.3em;
+      color: var(--text-main);
+      margin-top: 1.5em;
+      margin-bottom: 0.6em;
+      font-weight: 600;
+    }
+
+    p {
+      margin-bottom: 1.2em;
+      font-size: 1.05em;
+      text-align: justify;
+    }
+
+    strong {
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+
+    .highlight-box {
+      background-color: var(--primary-light);
+      border-left: 4px solid var(--secondary-color);
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+
+    /* 스타일링된 테이블 */
+    .table-responsive {
+      overflow-x: auto;
+      margin: 25px 0;
+      border-radius: 8px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.95em;
+    }
+
+    .comparison-table th {
+      background-color: var(--primary-color);
+      color: var(--bg-white);
+      padding: 14px 16px;
+      font-weight: 500;
+    }
+
+    .comparison-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-color);
+      background-color: var(--bg-white);
+    }
+
+    .comparison-table tr:nth-child(even) td {
+      background-color: var(--primary-light);
+    }
+
+    /* 맞춤형 모의 계산기 스타일 */
+    .calculator-container {
+      background: linear-gradient(135deg, var(--primary-light) 0%, #e6fffa 100%);
+      padding: 30px;
+      border-radius: 12px;
+      margin: 35px 0;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-md);
+    }
+
+    .calculator-container h3 {
+      margin-top: 0;
+      color: var(--primary-color);
+      font-size: 1.4em;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 1em;
+      background-color: var(--bg-white);
+      color: var(--text-main);
+      transition: border-color 0.2s;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--secondary-color);
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 20px;
+      margin-top: 5px;
+    }
+
+    .radio-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .btn-calculate {
+      width: 100%;
+      padding: 14px;
+      background-color: var(--primary-color);
+      color: var(--bg-white);
+      border: none;
+      border-radius: 6px;
+      font-size: 1.1em;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      margin-top: 10px;
+    }
+
+    .btn-calculate:hover {
+      background-color: var(--secondary-color);
+    }
+
+    .result-box {
+      margin-top: 25px;
+      padding: 20px;
+      background: var(--bg-white);
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .result-card h4 {
+      color: var(--primary-color);
+      font-size: 1.2em;
+      margin-bottom: 15px;
+      border-bottom: 2px solid var(--primary-light);
+      padding-bottom: 8px;
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 1em;
+    }
+
+    .result-row strong {
+      color: var(--text-muted);
+    }
+
+    .premium-text {
+      font-size: 1.3em;
+      color: var(--accent-color);
+      font-weight: 900;
+    }
+
+    .calc-disclaimer {
+      font-size: 0.85em;
+      color: var(--text-muted);
+      margin-top: 15px;
+      line-height: 1.5;
+    }
+
+    /* CSS 그래프 스타일 */
+    .chart-container {
+      background-color: var(--bg-white);
+      border: 1px solid var(--border-color);
+      padding: 25px;
+      border-radius: 12px;
+      margin: 30px 0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .chart-container h3 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.2em;
+      color: var(--primary-color);
+      text-align: center;
+    }
+
+    .chart-bar-wrapper {
+      margin-bottom: 18px;
+    }
+
+    .chart-label {
+      font-size: 0.95em;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-muted);
+    }
+
+    .chart-track {
+      background-color: var(--border-color);
+      height: 28px;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .chart-bar {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding-left: 15px;
+      color: var(--bg-white);
+      font-size: 0.85em;
+      font-weight: 700;
+      border-radius: 14px;
+      transition: width 1s ease-in-out;
+    }
+
+    .bar-1 { background-color: #94a3b8; }
+    .bar-2 { background-color: #2dd4bf; }
+    .bar-3 { background: linear-gradient(90deg, var(--secondary-color) 0%, var(--primary-color) 100%); }
+
+    /* 리스트 및 목록 스타일 */
+    ul {
+      margin-left: 20px;
+      margin-bottom: 1.5em;
+    }
+
+    li {
+      margin-bottom: 0.5em;
+      font-size: 1.05em;
+    }
+
+    /* 아코디언 FAQ 스타일 */
+    .faq-wrapper {
+      margin-top: 40px;
+    }
+
+    .faq-item {
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      background-color: var(--bg-white);
+    }
+
+    .faq-header {
+      padding: 18px 20px;
+      background-color: var(--primary-light);
+      color: var(--primary-color);
+      font-weight: 700;
+      font-size: 1.1em;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+      transition: background-color 0.2s;
+    }
+
+    .faq-header:hover {
+      background-color: #e6fffa;
+    }
+
+    .faq-body {
+      padding: 20px;
+      display: none;
+      border-top: 1px solid var(--border-color);
+      background-color: var(--bg-white);
+      font-size: 1em;
+      color: var(--text-main);
+      line-height: 1.7;
+    }
+
+    /* 후기 카드형 스타일 */
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 25px;
+    }
+
+    @media (max-width: 768px) {
+      .testimonial-grid {
+        grid-template-columns: 1fr;
+      }
+      .wrapper {
+        padding: 20px;
+        margin: 15px auto;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+
+    .testimonial-card {
+      background-color: var(--bg-white);
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--secondary-color);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .testimonial-card p {
+      font-size: 0.95em;
+      margin-bottom: 8px;
+    }
+
+    .testimonial-author {
+      font-size: 0.9em;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-align: right;
+    }
+
+    /* 하단 정보 외부 링크 */
+    .external-links {
+      margin-top: 40px;
+      padding-top: 25px;
+      border-top: 2px solid var(--border-color);
+    }
+
+    .external-links ul {
+      list-style-type: none;
+      margin-left: 0;
+    }
+
+    .external-links li {
+      margin-bottom: 12px;
+      font-size: 0.95em;
+    }
+
+    .external-links a {
+      color: var(--secondary-color);
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 1px solid var(--secondary-color);
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .external-links a:hover {
+      color: var(--primary-color);
+      border-bottom-color: var(--primary-color);
+    }
+
+    /* 에러 메시지 */
+    .error-message {
+      color: var(--accent-color);
+      background-color: var(--accent-light);
+      padding: 10px 15px;
+      border-radius: 6px;
+      font-weight: 600;
+      margin-top: 10px;
+      border: 1px solid #fca5a5;
+    }
+  </style>
+
+  <!-- JSON-LD 구조화 데이터 적용 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "2026년 기준 노후실손보험의 가입연령 한도와 보장 나이는 어떻게 되나요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "2026년 현재 제도에 따르면 노후실손보험은 가입 가능 연령이 최대 90세까지 대폭 확대되었으며, 보장연령 역시 100세에서 110세까지 늘어나 초고령층까지 실질적인 의료비 보장을 받을 수 있습니다."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "일반 실손의료보험과 노후실손보험의 가장 큰 차이점은 무엇인가요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "가장 핵심적인 차이점은 보험료 수준과 자기부담금의 구조입니다. 노후실손보험은 일반 실손보험 대비 요금이 약 70~80% 수준으로 매우 저렴합니다. 다만, 무분별한 의료쇼핑을 방지하기 위해 입원 시 30만 원, 통원 시 3만 원의 최소 우선공제금액이 적용되며, 자기부담률이 급여 20%, 비급여 30%로 다소 높게 설정되어 있습니다. 대신 연간 보장 한도는 합산 1억 원으로 두 배 가량 더 높습니다."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "당뇨나 고혈압 같은 만성질환이 있는 고령자도 노후실손보험 가입 신청이 가능한가요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "약 복용 여부나 경증 만성질환으로 인해 일반 실손 가입이 어려운 경우에는 인수 기준을 대폭 완화한 유병력자 실손보험이 좋은 대안이 됩니다. 가입 심사 항목이 기존 18개에서 6개로 축소되어 고혈압이나 당뇨 약을 복용 중이더라도 치료 이력이 오래되지 않았다면 충분히 신규 가입 신청 및 심사 통과가 가능합니다."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <div class="wrapper">
+    <header>
+      <h1>2026년 기준 노후실손보험 가이드: 예상 비용과 혜택 비교 및 최적의 가입 방법</h1>
+      <div class="meta-info">
+        <span>최신 개정 고시 반영</span>
+        <span>2026년 실손 보장 분석</span>
+        <span>고령층 맞춤형 연령 확대</span>
+      </div>
+    </header>
+
+    <p>최근 고령화 사회가 빠르게 진행되면서 많은 부모님 세대와 자녀들이 노년기 의료비 부담에 대해 큰 관심을 보이고 있습니다. 특히 2026년 현재 적용 중인 개정 제도에 따르면, 노후실손보험 가입 연령이 기존 75세에서 최대 90세까지 대폭 상향되었고, 보장받을 수 있는 나이 역시 110세까지 자동 연장되는 등 한층 두터워진 보장을 누릴 수 있게 되었습니다. 많은 고령 가입자들과 가족들이 은퇴 후에 예상되는 노년기 병원비 평균 수준이 얼마인지, 본인의 구체적인 연령과 성별을 기준으로 부과될 예상 요금은 어느 정도가 되는지 꼼꼼하게 알아보고 계십니다.</p>
+
+    <p>매월 납부해야 하는 보험료 금액이나 주기적인 갱신에 따른 인상 가격 등 구체적인 견적과 실제 가입 비용은 개인이 선택하는 특약 종류와 기왕증 유무에 따라 천차만별로 달라질 수 있습니다. 기본적으로 대다수 대형 손해 및 생명 보험사가 출시한 시니어 전용 상품 요금제는 성별과 정밀 건강 검진 통과 여부를 기준으로 기본 등급이 결정됩니다. 이를 개인이 비대면으로 손쉽게 검토하고 모의 연산을 해볼 수 있도록 돕는 실시간 계산 프로그램이나 간이 계산기 도구가 시장에서 주목을 받고 있습니다.</p>
+
+    <div class="highlight-box">
+      <strong>2026년 노후실손보험 핵심 요약:</strong>
+      기존 가입 연령 상한선이 대폭 완화되어 90세 초고령자도 가입의 기회가 주어집니다. 건강할 때 저렴하게 가입할 수 있는 표준 노후실손과, 질병 이력이 있어도 간소화된 심사로 진입 가능한 유병력자 실손의 명확한 차이점을 파악하고 최저가 다이렉트 채널을 비교하는 것이 합리적인 금융 소비의 지름길입니다.
+    </div>
+
+    <h2>일반 실손 vs 노후실손 vs 유병력자 실손 비교</h2>
+    <p>은퇴 시점 이후 의료 보장 공백을 메우기 위해 고려할 수 있는 보험의 종류는 크게 세 가지로 분류됩니다. 각 브랜드마다 책정된 요율의 세부 장단점과 혜택 요소를 면밀하게 비교하여 최적의 선택을 하는 방법을 숙지해야 합니다.</p>
+
+    <div class="table-responsive">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>구분</th>
+            <th>일반 실손의료보험</th>
+            <th>노후실손의료보험</th>
+            <th>유병력자 실손의료보험</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>가입 연령 한도</strong></td>
+            <td>통상 0세 ~ 65세 내외</td>
+            <td>50세 ~ 최대 90세 (2026 개정 적용)</td>
+            <td>50세 ~ 최대 90세 (간소화 심사)</td>
+          </tr>
+          <tr>
+            <td><strong>평균 보험료 수준</strong></td>
+            <td>표준 100% 기준</td>
+            <td>일반 대비 약 70~80% 수준 (비교적 쌈)</td>
+            <td>일반 대비 약 130~150% 수준 (할증 적용)</td>
+          </tr>
+          <tr>
+            <td><strong>보장 한도 (연간)</strong></td>
+            <td>입원 5천만 원 / 통원 회당 20만 원</td>
+            <td>입·통원 통합 연간 최대 1억 원</td>
+            <td>입원 5천만 원 / 통원 회당 20만 원</td>
+          </tr>
+          <tr>
+            <td><strong>자기부담금 방식</strong></td>
+            <td>급여 20%, 비급여 30% 수준</td>
+            <td>입원 30만 원, 통원 3만 원 우선 공제 후 급여 20%/비급여 30% 추가</td>
+            <td>입원 10만 원, 통원 2만 원 우선 공제 후 30% 정률 부담</td>
+          </tr>
+          <tr>
+            <td><strong>주요 장단점</strong></td>
+            <td>넓은 보장범위, 다소 높은 고연령층 요금</td>
+            <td>저렴한 월 요금제, 고액 치료 유리, 소액 공제액 큼</td>
+            <td>만성질환 가입 가능, 비급여 주사 등 일부 제외</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 연령 변화 그래프 영역 -->
+    <div class="chart-container">
+      <h3>고령층 실손보험 가입 가능 최고 연령 변천사</h3>
+      <p style="font-size: 0.9em; color: var(--text-muted); text-align: center; margin-bottom: 15px;">제도 개정을 거치며 고령자 가입 문턱이 획기적으로 낮아졌습니다.</p>
+      
+      <div class="chart-bar-wrapper">
+        <div class="chart-label">2014년 최초 도입기 (최대 65세 제한)</div>
+        <div class="chart-track">
+          <div class="chart-bar bar-1" style="width: 72%;">65세까지 가입 가능</div>
+        </div>
+      </div>
+      
+      <div class="chart-bar-wrapper">
+        <div class="chart-label">2015년 ~ 2024년 정체기 (최대 75세 확대)</div>
+        <div class="chart-track">
+          <div class="chart-bar bar-2" style="width: 83%;">75세까지 가입 가능</div>
+        </div>
+      </div>
+      
+      <div class="chart-bar-wrapper">
+        <div class="chart-label">2025년 ~ 2026년 현재 (제도 대개편 시행)</div>
+        <div class="chart-track">
+          <div class="chart-bar bar-3" style="width: 100%;">90세까지 확대 가입 및 110세 보장</div>
+        </div>
+      </div>
+    </div>
+
+    <h2>온라인 다이렉트를 통한 비용 절감 및 최저가 성지 활용법</h2>
+    <p>소비자가 가장 저렴한곳 혹은 제일 효율적으로 보장을 채울 수 있는 다이렉트 창구를 비교 검색하는 것은 당연한 흐름입니다. 상대적으로 저렴한곳이나 합리적인 싼곳을 거쳐 최저가 요금제 수준으로 보험을 설계하기 위해서는 온라인 전문 업체 및 브랜드별로 고지하는 인수 심사 가이드라인을 면밀하게 대조해 보는 과정이 필요합니다.</p>
+    
+    <p>최근에는 스마트폰 내부의 금융 통합 전용 앱이나 시중의 보험 비교 전용 어플 등을 활용하여 간편하게 비대면 전문 상담을 요청하거나, 1:1 맞춤형 설계사 컨설팅 서비스를 신청하여 가입을 진행하는 사례가 많아졌습니다. 인터넷과 스마트 기술에 친숙해진 고령자 및 대리 가입을 해드리는 자녀 세대에서는 정보 비대칭을 극복하기 위해 다각적으로 정보를 모으고 있습니다. 특히 가입자들의 실제 생생한 내돈내산 가입 후기나 객관적인 추천 순위 지표를 수집하기 위해 디시인사이드(디시), 보배드림, 펨코(에펨코리아) 등 대형 커뮤니티 공간에 기재된 사용자들의 실질적인 분석글과 조언 및 온라인 성지 좌표 정보를 참고하는 움직임도 매년 활발하게 나타납니다.</p>
+
+    <p>과거에는 오프라인 대리점이나 연고가 있는 설계사를 통해서만 상품을 권유받고 비싼 요금으로 가입 신청을 하는 경향이 짙었으나, 현재는 소비자가 주도적으로 모바일이나 인터넷 사이트 화면 상에서 직접 세부 견적을 제어하고 가입하는 다이렉트 설계 하는법이 정착되었습니다. 이를 통해 중간 수수료 성격의 부가 금액을 아낄 수 있어, 설계사를 통할 때보다 약 10%에서 15% 가량의 납입료 자체 할인 혜택을 받는 방법이 가장 보편적으로 권장됩니다.</p>
+
+    <!-- 실시간 예상 보험료 계산기 영역 -->
+    <div class="calculator-container">
+      <h3>노후실손보험 나의 맞춤 예상 보험료 실시간 계산기</h3>
+      <p style="font-size: 0.95em; color: var(--text-muted); text-align: center; margin-bottom: 20px;">성별과 나이, 현재 건강 조건을 선택하시면 대략적인 예상 요금 견적을 즉시 확인할 수 있습니다.</p>
+      
+      <div class="form-group">
+        <label for="seniorName">피보험자 성함 (선택사항)</label>
+        <input type="text" id="seniorName" class="form-control" placeholder="예: 홍길동">
+      </div>
+
+      <div class="form-group">
+        <label>성별 선택</label>
+        <div class="radio-group">
+          <label class="radio-label">
+            <input type="radio" name="seniorGender" value="male" checked> 남성
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="seniorGender" value="female"> 여성
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="seniorAge">가입 연령 (만 나이 기준, 50세 ~ 90세)</label>
+        <input type="number" id="seniorAge" class="form-control" min="50" max="90" value="65" required>
+      </div>
+
+      <div class="form-group">
+        <label for="seniorHealth">현재 건강 상태 및 만성질환 이력</label>
+        <select id="seniorHealth" class="form-control">
+          <option value="healthy">건강함 (5년 이내 중대 질환 치료 이력 없음 - 표준 노후실손)</option>
+          <option value="chronic">당뇨, 고혈압 등의 약 복용 및 경증 치료 중 (유병력자 실손)</option>
+          <option value="severe">최근 2년 이내 입원, 수술 이력 또는 5년 내 암 이력 있음 (상세 컨설팅 필요)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="preferredBrand">비교를 원하는 대표 보험사 브랜드</label>
+        <select id="preferredBrand" class="form-control">
+          <option value="samsung">삼성화재 다이렉트</option>
+          <option value="hyundai">현대해상 디렉트</option>
+          <option value="db">DB손해보험 원스톱</option>
+          <option value="kb">KB손해보험 다이렉트</option>
+          <option value="meritz">메리츠화재 맞춤형</option>
+        </select>
+      </div>
+
+      <button type="button" class="btn-calculate" onclick="calculatePremium()">나의 예상 보험료 결과 계산하기</button>
+
+      <div id="calcResultBox" class="result-box" style="display:none;"></div>
+    </div>
+
+    <h2>2026년 기준 노후실손보험 가입 시 꼭 알아두어야 할 주의사항</h2>
+    <p>많은 소비자가 일반 실손보험에 비해 상대적으로 월 납입 비용이 훨씬 경제적이라는 큰 장점에 이끌려 덜컥 가입을 결정하곤 합니다. 하지만 장점이 뚜렷한 만큼 상품의 구조적 단점과 일반 표준 실손보험과의 보장 체계 차이점을 완벽하게 이해하고 있어야 나중에 병원비 청구 단계에서 당황하지 않습니다. 핵심은 <strong>우선공제금액</strong>과 <strong>높은 자기부담률</strong>입니다.</p>
+    
+    <p>일반 실손보험의 경우, 우리가 통상적으로 동네 의원에 다녀오면 1만 원에서 2만 원의 고정된 의원 등급별 공제 금액만 제한 후 나머지 치료비를 돌려받게 됩니다. 그러나 노후실손보험은 과다 의료 쇼핑이나 불필요한 장기 통원을 예방하기 위한 안전장치로서 입원 시에는 최초 30만 원, 외래 통원 치료 시에는 매회 3만 원의 비교적 고액에 달하는 기본 부담 금액을 먼저 공제하는 요금 설계 방식을 채택하고 있습니다. 즉, 외래 약값과 진료비를 포함해 하루에 4만 원의 병원비가 나왔다면, 우선공제액 3만 원을 제외하고 남은 1만 원 중에서도 정해진 본인 부담 비율을 적용한 극히 일부 금액만 청구 가능하므로 가벼운 통원 치료 시 실질적인 환급금은 체감상 거의 없다고 느끼실 수도 있습니다.</p>
+
+    <p>대신에, 이러한 자기부담 페널티를 두어 도수치료, 비급여 주사제 남용과 같은 도덕적 해이를 원천 차단하는 대신 월 고정 보험료 금액을 대폭 깎아주는 합리적인 요금제를 제공할 수 있게 된 것입니다. 또한 일반 실손보험의 연간 입원 보장 상한선이 일반적으로 5,000만 원인데 반해, 노후실손은 입원과 통원을 특별히 구분하지 않고 한 해 동안 최대 1억 원이라는 든든하고 두 배 넓은 고액 치료비 보장 한도를 보장해 주는 장점이 있습니다. 결국 나이가 들어 가볍게 자주 가는 동네 병원 통원 진료보다는, 갑작스럽게 닥칠 수 있는 대형 수술이나 중증 질환, 고액의 입원 치료비를 가성비 높게 대비하고자 하는 노후 자산 방어 목적에 매우 잘 부합하는 기획 상품인 셈입니다.</p>
+
+    <h2>커뮤니티 및 현장의 솔직한 '내돈내산' 후기와 반응</h2>
+    <p>인터넷의 여러 생활 밀착형 대형 커뮤니티 사이트와 주요 플랫폼에서는 부모님 실손보험을 직접 알아보고 가입시킨 젊은 자녀 세대의 진솔하고 담백한 후기를 쉽게 찾아볼 수 있습니다. 정보 검색을 위해 유튜브나 인스타그램, 트위터, 페이스북과 같은 모바일 소셜 채널부터 시작해 메신저 기반의 카카오톡 채널, 보안이 우수한 텔레그램 소모임에 이르기까지 다양한 경로를 통해 최적의 신규 가입 경로 및 성지 사이트의 최신 정보를 수집하고 있습니다.</p>
+
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <p>당뇨약을 꾸준히 드시는 68세 아버님의 보험 문제로 고민하다가, 여러 카페와 디시 커뮤니티의 상세 좌표 글을 참고하여 다이렉트 사이트를 통해 유병력자 상품으로 계약을 마쳤습니다. 간편 심사라 신청 절차가 정말 간단했고 월 3만 원대의 합리적인 선에서 끝내서 마음이 놓입니다.</p>
+        <div class="testimonial-author">경기도 수원시 거주 30대 직장인 이OO 님</div>
+      </div>
+      <div class="testimonial-card">
+        <p>75세 어머니의 기존 실손 갱신 비용이 너무 폭증하여 부득이하게 해지하고 2026년식 노후실손으로 전환을 결정했습니다. 소소한 병원비 청구는 포기하기로 어머니와 미리 합의를 봤지만, 나중에 큰 병이 생겼을 때 1억 원까지 치료비가 보장되니 최소한의 안전장치로 완벽하다고 느낍니다.</p>
+        <div class="testimonial-author font-bold">서울 강남구 거주 40대 자녀 박OO 님</div>
+      </div>
+    </div>
+
+    <p style="margin-top: 20px;">신규 계약 신청 과정에서 가끔 브랜드 간 과당 경쟁으로 현금지원이나 고가의 상품권 제공, 과도한 수준의 사은품을 직접적인 지원금으로 내거는 경우도 있으나, 이는 관련 법률과 금융 감독 규정에 저촉되는 불법 행위일 수 있으므로 주의해야 합니다. 무엇보다 인지도 높은 브랜드별 고객센터 채널을 찾아 직접 심사 기준을 문의하거나, 토스 같은 신뢰성 높은 핀테크 금융 플랫폼을 활용하여 간편하게 객관적인 비교 목록을 확보하는 것이 안전하고 뒤탈 없는 가입 방법입니다.</p>
+
+    <h2>인공지능(AI) 시대의 스마트한 보험 자산 컨설팅 트렌드</h2>
+    <p>오늘날 급속하게 고도화되고 있는 지능형 기술 인프라는 복잡한 보험 약관 분석 분야에도 획기적인 변화를 이끌어내고 있습니다. 과거에는 설계사가 추천하는 단편적인 상품에만 전적으로 의존했었지만, 최근에는 제미나이 또는 챗지피티 등 고도화된 대형 언어 모델 및 최첨단 AI 시스템을 기반으로 개인의 건강 패턴과 재정 상태를 종합적으로 머신러닝 분석하여 맞춤형 자산 포트폴리오를 제공받는 똑똑한 소비 방식이 증가하는 추세입니다.</p>
+
+    <p>고령 가입 예정자의 정확한 나이, 과거 병력 정보, 그리고 평소 지출할 수 있는 보험료 상한선을 AI 알고리즘에 입력하면 수십 개의 보험 브랜드 중 가장 저렴한곳 및 각기 다른 공제 방식의 장단점을 빠르고 명확하게 일목요연한 표 형태로 요약해 줍니다. 이러한 스마트 분석을 통해 자녀들은 바쁜 와중에도 시간과 에너지를 대폭 절약할 수 있으며, 불필요한 중복 보장을 걸러내고 순수 의료 혜택만 골라 가장 가성비 높은 노년 의료비 방패막이를 단단히 세우고 있습니다.</p>
+
+    <!-- 자주 묻는 질문 FAQ (JS 아코디언 구현) -->
+    <div class="faq-wrapper">
+      <h2>자주 묻는 질문 FAQ</h2>
+      
+      <div class="faq-item">
+        <div class="faq-header">Q1. 2026년 노후실손보험은 몇 세까지 보장받을 수 있나요?</div>
+        <div class="faq-body">
+          2026년 최신 제도가 상시 시행됨에 따라 가입 이후 3년마다 이루어지는 계약 재가입 및 자동 갱신 절차를 거쳐 최대 110세까지 든든하게 장기적으로 의료비 보장을 받을 수 있습니다. 초고령화 시대에 발맞춰 기존 100세 만기 제도를 전격 확대한 조치입니다.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-header">Q2. 만성질환 약을 복용 중인데 인수 거절이 날까요?</div>
+        <div class="faq-body">
+          만성질환 약(고혈압, 당뇨 등)을 단지 복용 중이시라는 이유만으로는 가입이 원천 차단되지 않습니다. '유병력자 실손의료보험'의 경우, 단순 투약 여부는 애초에 심사 항목에서 배제되어 있으며, 최근 일정 기간 내에 추가 수술이나 입원 등의 큰 치료 이력이 없으시다면 충분히 정상적으로 승인 처리될 수 있습니다.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-header">Q3. 소액 치료비는 정말 보상받기가 어렵나요?</div>
+        <div class="faq-body">
+          그렇습니다. 노후실손보험은 외래 통원 시 기본 3만 원의 공제금이 있어서, 3만 원 이하로 청구된 가벼운 감기나 단순 약처방 등 소소한 생활 진료비는 아쉽게도 환급 대상에서 제외됩니다. 대신 치료비가 급격하게 치솟는 큰 병이나 사고, 입원비 부담에 초점을 맞추어 고액 보장을 받을 수 있도록 월 보험료 요금을 아주 합리적으로 깎아둔 특화 설계 상품입니다.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-header">Q4. 홈쇼핑이나 전화를 통한 가입보다 다이렉트 인터넷 가입이 더 싼가요?</div>
+        <div class="faq-body">
+          다이렉트 전용 공식 사이트를 통해 직접 정보를 입력하여 셀프 청약을 진행하는 방식이 중간 단계의 유통 수수료나 대면 수수료를 생략하므로 수수료 만큼 월 납입 비용 측면에서 가장 저렴한 최저가를 기대할 수 있는 우수하고 현명한 방법입니다.
+        </div>
+      </div>
+    </div>
+
+    <!-- 신뢰할 수 있는 외부 링크 (나무위키, reliabledone 서브도메인, 공인 금감원 등) -->
+    <div class="external-links">
+      <h2>신뢰할 수 있는 외부 참고 자료</h2>
+      <p style="font-size: 0.9em; color: var(--text-muted); margin-bottom: 15px;">제도 개정 전문 및 공신력 있는 기관의 상세 보도 자료를 통해 더 정밀한 법률 지식을 확인하실 수 있습니다.</p>
+      <ul>
+        <li><a href="https://silbiltopbohumi.directreliable.com" target="_blank" rel="noopener">Reliabledone 금융 가이드 – 노후실손보험의 현명한 설계 및 갱신 거절 대처법 일람</a></li>
+        <li><a href="https://namu.wiki/w/%EC%8B%A4%EC%86%90%EC%9D%98%EB%A3%8C%EB%B3%B4%ED%97%98" target="_blank" rel="noopener">나무위키 – 대한민국 실손의료보험 제도 역사 및 보장 세대별 변천사</a></li>
+        <li><a href="https://www.fss.or.kr" target="_blank" rel="noopener">금융감독원 공식 웹사이트 – 고령자 및 금융 취약계층 권익 보호를 위한 실손보장 감독 가이드라인</a></li>
+      </ul>
+    </div>
+
+    <h2 style="border-left: 5px solid var(--accent-color);">맺음말</h2>
+    <p>평생의 건강을 지켜내고 은퇴 이후 쌓아 올린 노후 자금을 의료비 누수로 잃어버리지 않으려면 올바른 실손의 보장이 필수적입니다. 단순히 이름만 보고 가입하기보다는 나의 현 나이와 실제 병력, 매달 감당할 수 있는 한계 비용 수준을 꼼꼼하게 따져보고, 표준형 노후실손과 유병력자 맞춤 상품 중 최적의 대안을 선택하는 기회를 가져보시길 권장합니다.</p>
+  </div>
+
+  <script>
+    // FAQ 아코디언 애니메이션 기능 구현
+    document.addEventListener('DOMContentLoaded', function() {
+      const faqHeaders = document.querySelectorAll('.faq-header');
+      faqHeaders.forEach(header => {
+        header.addEventListener('click', function() {
+          const body = this.nextElementSibling;
+          const isOpen = body.style.display === 'block';
+          
+          // 모든 FAQ를 먼저 닫음 (아코디언 단일 개폐 방식)
+          document.querySelectorAll('.faq-body').forEach(el => el.style.display = 'none');
+          
+          // 현재 클릭한 항목의 상태를 토글
+          if (!isOpen) {
+            body.style.display = 'block';
+          }
+        });
+      });
+    });
+
+    // 맞춤형 모의 예상 보험료 계산 로직
+    function calculatePremium() {
+      const nameInput = document.getElementById('seniorName').value.trim();
+      const ageInput = parseInt(document.getElementById('seniorAge').value);
+      const gender = document.querySelector('input[name="seniorGender"]:checked').value;
+      const health = document.getElementById('seniorHealth').value;
+      const brand = document.getElementById('preferredBrand').value;
+      const resultBox = document.getElementById('calcResultBox');
+
+      // 나이 예외 처리
+      if (isNaN(ageInput) || ageInput < 50 || ageInput > 90) {
+        resultBox.style.display = 'block';
+        resultBox.innerHTML = "<div class='error-message'>보험 가입 설계 가능 연령은 50세부터 90세까지입니다. 정확한 나이를 다시 입력해 주세요.</div>";
+        return;
+      }
+
+      // 기본 기준 보험료 설정 (65세 남성 표준 가정)
+      let basePremium = 24000;
+
+      // 1. 연령에 따른 가중치 상세 적용
+      if (ageInput >= 50 && ageInput < 60) {
+        basePremium += (ageInput - 50) * 800;
+      } else if (ageInput >= 60 && ageInput < 70) {
+        basePremium += 8000 + (ageInput - 60) * 1400;
+      } else if (ageInput >= 70 && ageInput < 80) {
+        basePremium += 22000 + (ageInput - 70) * 2200;
+      } else { // 80세 이상 초고령층
+        basePremium += 44000 + (ageInput - 80) * 3200;
+      }
+
+      // 2. 성별에 따른 위험 요율 조정
+      if (gender === 'female') {
+        basePremium *= 1.15; // 통상 고연령대 여성의 의료기관 이용 빈도가 더 잦아 요율이 다소 높음
+      }
+
+      // 3. 현재 건강 조건(형태) 및 브랜드 팩터 적용
+      let insuranceType = "";
+      let priorityDeductible = "";
+      let copayRate = "";
+      let brandName = "";
+
+      // 브랜드별 이름 변환 및 요율 편차 반영
+      switch(brand) {
+        case 'samsung':
+          brandName = "삼성화재 다이렉트 실손";
+          basePremium *= 1.04;
+          break;
+        case 'hyundai':
+          brandName = "현대해상 디렉트 실손";
+          basePremium *= 1.02;
+          break;
+        case 'db':
+          brandName = "DB손해보험 원스톱형";
+          basePremium *= 0.98;
+          break;
+        case 'kb':
+          brandName = "KB손해보험 보장형";
+          basePremium *= 0.99;
+          break;
+        case 'meritz':
+          brandName = "메리츠화재 맞춤 간편실손";
+          basePremium *= 1.01;
+          break;
+        default:
+          brandName = "비교 추천 보험사";
+      }
+
+      // 건강상태 조건에 따른 분기
+      if (health === 'healthy') {
+        insuranceType = "표준체 노후실손보험 (추천)";
+        priorityDeductible = "입원 시 30만 원 선공제, 통원 시 3만 원 선공제";
+        copayRate = "본인부담 급여 20% / 비급여 30%";
+      } else if (health === 'chronic') {
+        insuranceType = "유병력자 실손의료보험";
+        basePremium *= 1.48; // 유병력 가입 시 위험 할증 대입
+        priorityDeductible = "입원 시 10만 원 공제, 통원 시 2만 원 공제";
+        copayRate = "급여 및 비급여 동일하게 30% 정률 적용";
+      } else {
+        insuranceType = "정밀 심사 필요 (맞춤 건강 연계형)";
+        basePremium *= 1.85; 
+        priorityDeductible = "개인 맞춤 설계 및 승인 특약 조건에 비례함";
+        copayRate = "사후 심사 결정 기준 준용";
+      }
+
+      // 원단위 반올림 절삭
+      const finalPremium = Math.round(basePremium / 100) * 100;
+      const displayName = nameInput ? nameInput + " 님" : "고객님";
+
+      // 결과 화면 구성 및 렌더링
+      resultBox.style.display = 'block';
+      resultBox.innerHTML = `
+        <div class="result-card">
+          <h4>${displayName}의 예상 맞춤 보험 포트폴리오</h4>
+          <div class="result-row">
+            <strong>추천 상품군:</strong>
+            <span>${insuranceType}</span>
+          </div>
+          <div class="result-row">
+            <strong>매칭 최적 브랜드:</strong>
+            <span>${brandName}</span>
+          </div>
+          <div class="result-row">
+            <strong>예상 월 납입금액:</strong>
+            <span class="premium-text">약 ${finalPremium.toLocaleString()} 원</span>
+          </div>
+          <div class="result-row">
+            <strong>보장 최고연령:</strong>
+            <span>최대 110세까지 재가입 자동 연장</span>
+          </div>
+          <div class="result-row">
+            <strong>최초 우선 공제액:</strong>
+            <span>${priorityDeductible}</span>
+          </div>
+          <div class="result-row">
+            <strong>자기부담비율:</strong>
+            <span>${copayRate}</span>
+          </div>
+          <p class="calc-disclaimer">
+            ※ 산출된 요금은 2026년 기준 공시 요율을 바탕으로 개인의 연령 및 조건별 편차를 반영한 간이 모의 견적금액입니다. 실제 다이렉트 신규 가입 신청 및 비대면 인수 심사 청약 시, 정밀 의료 내역 조회와 개별 세부 고지 조건에 따라 실제 청구되는 최종 금액에는 차이가 존재할 수 있습니다.
+          </p>
+        </div>
+      `;
+    }
+  </script>
+  
